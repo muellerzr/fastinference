@@ -6,7 +6,10 @@ __all__ = ['ClassConfusion']
 from fastai2.tabular.all import *
 
 # Cell
-from google.colab import widgets
+try:
+    from google.colab import widgets
+except ImportError:
+    raise ImportError('Requires to be run in Google Colaboratory')
 from tqdm import tqdm
 
 # Cell
