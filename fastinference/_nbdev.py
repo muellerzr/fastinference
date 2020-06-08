@@ -10,7 +10,9 @@ index = {"Learner.get_preds": "00_inference.ipynb",
          "ShapInterpretation": "01_tabular_shap_interp.ipynb",
          "TabDataLoader.get_losses": "02_class_confusion.ipynb",
          "TfmdDL.get_losses": "02_class_confusion.ipynb",
-         "ClassConfusion": "02_class_confusion.ipynb"}
+         "ClassConfusion": "02_class_confusion.ipynb",
+         "Learner.to_onnx": "03_onnx.ipynb",
+         "fastONNX": "03_onnx.ipynb"}
 
 modules = ["inference.py",
            "tabular/interpretation.py",
