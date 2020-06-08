@@ -16,7 +16,8 @@ modules = ["inference.py",
            "tabular/interpretation.py",
            "tabular/shap/core.py",
            "tabular/shap/interp.py",
-           "class_confusion.py"]
+           "class_confusion.py",
+           "onnx.py"]
 
 doc_url = "https://muellerzr.github.io/fastinference/"
 
