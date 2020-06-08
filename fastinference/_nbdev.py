@@ -7,12 +7,16 @@ index = {"Learner.get_preds": "00_inference.ipynb",
          "TabularLearner.predict": "00_inference.ipynb",
          "base_error": "01_tabular_interpretation.ipynb",
          "PermutationImportance": "01_tabular_interpretation.ipynb",
-         "ShapInterpretation": "01_tabular_shap_interp.ipynb"}
+         "ShapInterpretation": "01_tabular_shap_interp.ipynb",
+         "TabDataLoader.get_losses": "02_class_confusion.ipynb",
+         "TfmdDL.get_losses": "02_class_confusion.ipynb",
+         "ClassConfusion": "02_class_confusion.ipynb"}
 
 modules = ["inference.py",
            "tabular/interpretation.py",
            "tabular/shap/core.py",
-           "tabular/shap/interp.py"]
+           "tabular/shap/interp.py",
+           "class_confusion.py"]
 
 doc_url = "https://muellerzr.github.io/fastinference/"
 
