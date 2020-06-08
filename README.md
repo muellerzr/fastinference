@@ -1,4 +1,7 @@
-# nbdev template
+# fastinference
+> A collection of inference modules for fastai2 including inference speedup and interpretability
 
-Use this template to more easily create your nbdev project.
 
+## Install
+
+`pip install fastinference`
