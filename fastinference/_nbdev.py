@@ -14,8 +14,8 @@ modules = ["inference.py",
            "tabular/shap/core.py",
            "tabular/shap/interp.py"]
 
-doc_url = "https://muellerzr.github.io/fastInference/"
+doc_url = "https://muellerzr.github.io/fastinference/"
 
-git_url = "https://github.com/muellerzr/fastInference/tree/master/"
+git_url = "https://github.com/muellerzr/fastinference/tree/master/"
 
 def custom_doc_links(name): return None
