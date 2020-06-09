@@ -4,7 +4,7 @@ __all__ = []
 
 # Cell
 from fastai2.vision.all import *
-from fastai2.tabular.all import
+from fastai2.tabular.all import *
 
 # Cell
 def _fully_decode(dl, inps, outs, dec_out, is_multi):
@@ -89,31 +89,3 @@ def predict(x:TabularLearner, row, with_input=False, rm_type_tfms=None):
         res = x.get_preds(dl=dl, fully_decoded=True)
         if not with_input: res = res[:-1]
         return res
-
-# Cell
-@patch
-def get_preds(x:TextLearner, ds_idx=1, dl=None, raw_outs=False, decoded_loss=True, fully_decoded=False,
-             **kwargs):
-    "Get predictions with possible decoding"
-    inps, outs, dec_out, raw = [], [], [], []
-    if dl is None: dl = x.dls[ds_idx].new(shuffle=False, drop_last=False)
-    x.model.eval()
-    for batch in dl:
-        with torch.no_grad():
-            inps.append(batch[:x.dls.n_inp])
-            if decoded_loss or fully_decoded:
-                out = x.model(*batch[:x.dls.n_inp])[0]
-                raw.append(out)
-                dec_out.append(x.loss_func.decodes(out))
-            else:
-                raw.append(x.model(*batch[:x.dls.n_inp])[0])
-    raw = torch.cat(raw, dim=0).cpu().numpy()
-    dec_out = torch.cat(dec_out, dim=0)
-    if not raw_outs:
-        try: outs.insert(0, x.loss_func.activation(tensor(raw)).numpy())
-        except: outs.insert(0, dec_out)
-    else:
-        outs.insert(0, raw)
-    if fully_decoded: outs = _fully_decode(x.dls, inps, outs, dec_out, False)
-    if decoded_loss: outs = _decode_loss(x.dls.categorize.vocab, dec_out, outs)
-    return outs

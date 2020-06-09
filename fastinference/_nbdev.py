@@ -12,14 +12,19 @@ index = {"Learner.get_preds": "00_inference.ipynb",
          "TfmdDL.get_losses": "02_class_confusion.ipynb",
          "ClassConfusion": "02_class_confusion.ipynb",
          "Learner.to_onnx": "03_onnx.ipynb",
-         "fastONNX": "03_onnx.ipynb"}
+         "fastONNX": "03_onnx.ipynb",
+         "LMLearner.get_preds": "04_text_inference.ipynb",
+         "TextLearner.get_preds": "04_text_inference.ipynb",
+         "LMLearner.predict": "04_text_inference.ipynb",
+         "TextLearner.intrinsic_attention": "04_text_inference.ipynb"}
 
-modules = ["inference.py",
+modules = ["inference/inference.py",
            "tabular/interpretation.py",
            "tabular/shap/core.py",
            "tabular/shap/interp.py",
            "class_confusion.py",
-           "onnx.py"]
+           "onnx.py",
+           "inference/text.py"]
 
 doc_url = "https://muellerzr.github.io/fastinference/"
 
