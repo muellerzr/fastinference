@@ -146,5 +146,6 @@ def _intrinsic_attention(learn, text, class_id=None):
 @patch
 def intrinsic_attention(x:TextLearner, text:str, class_id:int=None, **kwargs):
     "Shows the `intrinsic attention for `text`, optional `class_id`"
+    if isinstance(x, LMLearner): raise Exception("Language models are not supported")
     text, attn = _intrinsic_attention(x, text, class_id)
     return _show_piece_attn(text.split(), to_np(attn), **kwargs)
