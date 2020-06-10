@@ -1,7 +1,11 @@
 {
-    "Overview": "/",
+    "Getting Started": {
+        "Overview":"/"
+    },
+    "Tutorials":{
+        "General Inference":"/inference"
+    },
     "Class Confusion": "/class_confusion",
-    "General Inference": "/inference",
     "Tabular": {
         "Interpretation": "/tabular.interpretation"
     },
@@ -12,5 +16,7 @@
         "Core": "/shap.core",
         "Interp": "/shap.interp"
     },
-    "ONNX": "/onnx"
+    "ONNX":{
+        "Overview":"/onnx"
+    }
 }
