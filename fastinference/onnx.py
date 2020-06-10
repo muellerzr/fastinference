@@ -3,7 +3,7 @@
 __all__ = ['fastONNX']
 
 # Cell
-from fastai2.tabular.all import *
+from fastai2.learner import Learner
 import onnxruntime as ort
 
 # Cell
