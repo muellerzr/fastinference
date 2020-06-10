@@ -7,24 +7,27 @@ entries:
 - folders:
   - folderitems:
     - output: web,pdf
-      title: Export to modules
-      url: /export.html
-    - output: web,pdf
-      title: Convert to html
-      url: /export2html.html
-    - output: web,pdf
-      title: Show doc
-      url: /showdoc.html
-    - output: web,pdf
-      title: Test functions
-      url: /test.html
-    - output: web,pdf
-      title: Core functions
-      url: /core.html
-    - output: web,pdf
-      title: Command line functions
-      url: /cli.html
+      title: Overview
+      url: /
     output: web
-    title: Notebook
+    title: Getting started
+  - output: web,pdf
+    title: Class Confusion
+    url: /class_confusion
+  - output: web,pdf
+    title: General Inference
+    url: /inference
+  - output: web,pdf
+    title: ONNX
+    url: /onnx
+  - folderitems:
+    - output: web,pdf
+      title: core
+      url: /core
+    - output: web,pdf
+      title: interp
+      url: /interp
+    output: web
+    title: shap
   output: web
   title: Sidebar
