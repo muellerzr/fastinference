@@ -5,6 +5,7 @@ __all__ = ['fastONNX']
 # Cell
 from fastai2.learner import Learner
 import onnxruntime as ort
+from fastcore.all import *
 
 # Cell
 @patch
