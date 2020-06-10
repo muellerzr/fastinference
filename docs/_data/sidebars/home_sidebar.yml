@@ -17,7 +17,7 @@ entries:
       url: /inference
     - output: web,pdf
       title: Text
-      url: /text/inference
+      url: /text.inference
     output: web
     title: Tutorials
   - folderitems:

@@ -4,7 +4,7 @@
     },
     "Tutorials":{
         "General Inference":"/inference",
-        "Text":"/text/inference"
+        "Text":"/text.inference"
     },
     "Class Confusion": {
         "Overview": "/class_confusion"
