@@ -10,26 +10,35 @@ entries:
       title: Overview
       url: /
     - output: web,pdf
-      title: Inference
-      url: /inference
-    - output: web,pdf
-      title: tabular.interpretation
-      url: /tabular.interpretation
-    - output: web,pdf
       title: Class Confusion
       url: /class_confusion
     - output: web,pdf
-      title: shap.core
-      url: /shap.core
+      title: General Inference
+      url: /inference
+    - output: web
+      subfolders:
+      - output: web,pdf
+        title: Interpretation
+        url: /tabular.interpretation
+      title: Tabular
+    - output: web
+      subfolders:
+      - output: web,pdf
+        title: Inference
+        url: /text.inference
+      title: Text
+    - output: web
+      subfolders:
+      - output: web,pdf
+        title: Core
+        url: /shap.core
+      - output: web,pdf
+        title: Interp
+        url: /shap.interp
+      title: SHAP
     - output: web,pdf
-      title: shap.interp
-      url: /shap.interp
-    - output: web,pdf
-      title: 03_onnx
+      title: ONNX
       url: /onnx
-    - output: web,pdf
-      title: text.inference
-      url: /text.inference
     output: web
     title: fastinference
   output: web

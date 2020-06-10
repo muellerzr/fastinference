@@ -1,12 +1,18 @@
 {
   "fastinference": {
     "Overview": "/",
-    "Inference": "/inference",
-    "tabular.interpretation": "/tabular.interpretation",
     "Class Confusion": "/class_confusion",
-    "shap.core": "/shap.core",
-    "shap.interp": "/shap.interp",
-    "03_onnx": "/onnx",
-    "text.inference": "/text.inference"
+    "General Inference": "/inference",
+    "Tabular": {
+        "Interpretation": "/tabular.interpretation"
+    },
+    "Text": {
+        "Inference": "/text.inference"
+    },
+    "SHAP":{
+        "Core": "/shap.core",
+        "Interp": "/shap.interp"
+    },
+    "ONNX": "/onnx"
   }
 }
