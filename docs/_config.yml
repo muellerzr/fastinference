@@ -1,7 +1,7 @@
-repository: muellerzr/fastInference
+repository: muellerzr/fastinference
 output: web
-topnav_title: fastInference
-site_title: fastInference
+topnav_title: fastinference
+site_title: fastinference
 company_name: Zachary Mueller
 description: A collection of inference modules
 # Set to false to disable KaTeX math
