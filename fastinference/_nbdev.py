@@ -5,24 +5,24 @@ __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 index = {"Learner.get_preds": "00_inference.ipynb",
          "Learner.predict": "00_inference.ipynb",
          "TabularLearner.predict": "00_inference.ipynb",
-         "base_error": "01_tabular_interpretation.ipynb",
-         "PermutationImportance": "01_tabular_interpretation.ipynb",
-         "ShapInterpretation": "01_tabular_shap_interp.ipynb",
+         "base_error": "01_tabular.interpretation.ipynb",
+         "PermutationImportance": "01_tabular.interpretation.ipynb",
          "TabDataLoader.get_losses": "02_class_confusion.ipynb",
          "TfmdDL.get_losses": "02_class_confusion.ipynb",
          "ClassConfusion": "02_class_confusion.ipynb",
+         "ShapInterpretation": "02_shap.interp.ipynb",
          "Learner.to_onnx": "03_onnx.ipynb",
          "fastONNX": "03_onnx.ipynb",
-         "LMLearner.get_preds": "04_text_inference.ipynb",
-         "TextLearner.get_preds": "04_text_inference.ipynb",
-         "LMLearner.predict": "04_text_inference.ipynb",
-         "TextLearner.intrinsic_attention": "04_text_inference.ipynb"}
+         "LMLearner.get_preds": "04_text.inference.ipynb",
+         "TextLearner.get_preds": "04_text.inference.ipynb",
+         "LMLearner.predict": "04_text.inference.ipynb",
+         "TextLearner.intrinsic_attention": "04_text.inference.ipynb"}
 
 modules = ["inference/inference.py",
            "tabular/interpretation.py",
+           "class_confusion.py",
            "tabular/shap/core.py",
            "tabular/shap/interp.py",
-           "class_confusion.py",
            "onnx.py",
            "inference/text.py"]
 
