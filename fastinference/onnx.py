@@ -24,7 +24,7 @@ def to_onnx(x:Learner, fname='export', path=Path('.')):
     torch.save(data_exp, path/f'{fname}.pkl', pickle_protocol=2)
 
 # Cell
-from .inference import _fully_decode, _decode_loss
+from .inference.inference import _fully_decode, _decode_loss
 
 # Cell
 class fastONNX():
