@@ -5,41 +5,38 @@
 # Instead edit ../../sidebar.json
 entries:
 - folders:
+  - output: web,pdf
+    title: Overview
+    url: /
+  - output: web,pdf
+    title: Class Confusion
+    url: /class_confusion
+  - output: web,pdf
+    title: General Inference
+    url: /inference
   - folderitems:
     - output: web,pdf
-      title: Overview
-      url: /
-    - output: web,pdf
-      title: Class Confusion
-      url: /class_confusion
-    - output: web,pdf
-      title: General Inference
-      url: /inference
-    - output: web
-      subfolders:
-      - output: web,pdf
-        title: Interpretation
-        url: /tabular.interpretation
-      title: Tabular
-    - output: web
-      subfolders:
-      - output: web,pdf
-        title: Inference
-        url: /text.inference
-      title: Text
-    - output: web
-      subfolders:
-      - output: web,pdf
-        title: Core
-        url: /shap.core
-      - output: web,pdf
-        title: Interp
-        url: /shap.interp
-      title: SHAP
-    - output: web,pdf
-      title: ONNX
-      url: /onnx
+      title: Interpretation
+      url: /tabular.interpretation
     output: web
-    title: fastinference
+    title: Tabular
+  - folderitems:
+    - output: web,pdf
+      title: Inference
+      url: /text.inference
+    output: web
+    title: Text
+  - folderitems:
+    - output: web,pdf
+      title: Core
+      url: /shap.core
+    - output: web,pdf
+      title: Interp
+      url: /shap.interp
+    output: web
+    title: SHAP
+  - output: web,pdf
+    title: ONNX
+    url: /onnx
   output: web
   title: Sidebar

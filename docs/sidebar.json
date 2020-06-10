@@ -1,5 +1,4 @@
 {
-  "fastinference": {
     "Overview": "/",
     "Class Confusion": "/class_confusion",
     "General Inference": "/inference",
@@ -14,5 +13,4 @@
         "Interp": "/shap.interp"
     },
     "ONNX": "/onnx"
-  }
 }
