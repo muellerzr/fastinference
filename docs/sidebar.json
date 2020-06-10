@@ -3,14 +3,14 @@
         "Overview":"/"
     },
     "Tutorials":{
-        "General Inference":"/inference"
+        "General Inference":"/inference",
+        "Text":"/text/inference"
     },
-    "Class Confusion": "/class_confusion",
-    "Tabular": {
-        "Interpretation": "/tabular.interpretation"
+    "Class Confusion": {
+        "Overview": "/class_confusion"
     },
-    "Text": {
-        "Inference": "/text.inference"
+    "Interpretation": {
+        "Tabular": "/tabular.interpretation"
     },
     "SHAP":{
         "Core": "/shap.core",
