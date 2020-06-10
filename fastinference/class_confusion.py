@@ -144,7 +144,6 @@ def _plot(x:TabDataLoader, interp, idxs, combs, tab, i=None, boxes=None, cols=No
                 print("Less than two unique values, cannot graph the KDE")
 
 # Cell
-#export
 class ClassConfusion():
     "Plots the most confused datapoints and statistics for model misses. First is prediction second is actual"
     def __init__(self, learn, dl=None, cut_off=100, is_ordered=False, classlist=[],
