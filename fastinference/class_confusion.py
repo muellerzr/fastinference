@@ -39,6 +39,7 @@ def _get_names(x:TfmdDL, idxs, mc=None, varlist=None, li=None):
     return [tbnames, boxes, None, None, ranges]
 
 # Cell
+#export
 @patch
 def get_losses(x:TabDataLoader, tl_idx, preds, combs):
     "Gets losses from `TabDataLoader`"
@@ -57,6 +58,7 @@ def get_losses(x:TabDataLoader, tl_idx, preds, combs):
     return df_list
 
 # Cell
+#export
 @patch
 def get_losses(x:TfmdDL, tl_idx, preds, combs):
     "Get losses and original `x` from `DataLoaders`"
