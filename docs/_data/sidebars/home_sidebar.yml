@@ -5,15 +5,21 @@
 # Instead edit ../../sidebar.json
 entries:
 - folders:
-  - output: web,pdf
-    title: Overview
-    url: /
+  - folderitems:
+    - output: web,pdf
+      title: Overview
+      url: /
+    output: web
+    title: Getting Started
+  - folderitems:
+    - output: web,pdf
+      title: General Inference
+      url: /inference
+    output: web
+    title: Tutorials
   - output: web,pdf
     title: Class Confusion
     url: /class_confusion
-  - output: web,pdf
-    title: General Inference
-    url: /inference
   - folderitems:
     - output: web,pdf
       title: Interpretation
@@ -35,8 +41,11 @@ entries:
       url: /shap.interp
     output: web
     title: SHAP
-  - output: web,pdf
+  - folderitems:
+    - output: web,pdf
+      title: Overview
+      url: /onnx
+    output: web
     title: ONNX
-    url: /onnx
   output: web
   title: Sidebar
