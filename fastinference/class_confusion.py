@@ -6,6 +6,7 @@ __all__ = ['ClassConfusion']
 from fastai2.tabular.data import TabDataLoader
 from fastai2.data.transforms import TfmdDL
 from fastcore.dispatch import typedispatch, patch
+import matplotlib
 
 # Cell
 try:
