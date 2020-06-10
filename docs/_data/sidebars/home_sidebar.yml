@@ -13,16 +13,16 @@ entries:
       title: Inference
       url: /inference
     - output: web,pdf
-      title: 01_tabular.interpretation
+      title: tabular.interpretation
       url: /tabular.interpretation
     - output: web,pdf
-      title: 01_class_confusion
+      title: Class Confusion
       url: /class_confusion
     - output: web,pdf
-      title: 01_tabular_shap_core
+      title: shap.core
       url: /shap.core
     - output: web,pdf
-      title: 01_tabular_shap_interp
+      title: shap.interp
       url: /shap.interp
     - output: web,pdf
       title: 03_onnx

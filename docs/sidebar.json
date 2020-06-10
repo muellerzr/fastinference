@@ -2,10 +2,10 @@
   "fastinference": {
     "Overview": "/",
     "Inference": "/inference",
-    "01_tabular.interpretation": "/tabular.interpretation",
-    "01_class_confusion": "/class_confusion",
-    "01_tabular_shap_core": "/shap.core",
-    "01_tabular_shap_interp": "/shap.interp",
+    "tabular.interpretation": "/tabular.interpretation",
+    "Class Confusion": "/class_confusion",
+    "shap.core": "/shap.core",
+    "shap.interp": "/shap.interp",
     "03_onnx": "/onnx",
     "text.inference": "/text.inference"
   }
