@@ -9,25 +9,28 @@ entries:
     - output: web,pdf
       title: Overview
       url: /
-    output: web
-    title: Getting started
-  - output: web,pdf
-    title: Class Confusion
-    url: /class_confusion
-  - output: web,pdf
-    title: General Inference
-    url: /inference
-  - output: web,pdf
-    title: ONNX
-    url: /onnx
-  - folderitems:
     - output: web,pdf
-      title: core
-      url: /core
+      title: Inference
+      url: /inference
     - output: web,pdf
-      title: interp
-      url: /interp
+      title: 01_tabular.interpretation
+      url: /tabular.interpretation
+    - output: web,pdf
+      title: 01_class_confusion
+      url: /class_confusion
+    - output: web,pdf
+      title: 01_tabular_shap_core
+      url: /shap.core
+    - output: web,pdf
+      title: 01_tabular_shap_interp
+      url: /shap.interp
+    - output: web,pdf
+      title: 03_onnx
+      url: /onnx
+    - output: web,pdf
+      title: text.inference
+      url: /text.inference
     output: web
-    title: shap
+    title: fastinference
   output: web
   title: Sidebar
