@@ -6,6 +6,7 @@ __all__ = ['fastONNX']
 from fastai2.learner import Learner
 import onnxruntime as ort
 from fastcore.all import *
+from torch import tensor
 
 # Cell
 @patch
