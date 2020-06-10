@@ -15,23 +15,23 @@ entries:
     - output: web,pdf
       title: General Inference
       url: /inference
+    - output: web,pdf
+      title: Text
+      url: /text/inference
     output: web
     title: Tutorials
-  - output: web,pdf
-    title: Class Confusion
-    url: /class_confusion
   - folderitems:
     - output: web,pdf
-      title: Interpretation
+      title: Overview
+      url: /class_confusion
+    output: web
+    title: Class Confusion
+  - folderitems:
+    - output: web,pdf
+      title: Tabular
       url: /tabular.interpretation
     output: web
-    title: Tabular
-  - folderitems:
-    - output: web,pdf
-      title: Inference
-      url: /text.inference
-    output: web
-    title: Text
+    title: Interpretation
   - folderitems:
     - output: web,pdf
       title: Core
