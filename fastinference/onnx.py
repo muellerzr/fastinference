@@ -3,12 +3,14 @@
 __all__ = ['fastONNX']
 
 # Cell
+# export
 from fastai2.learner import Learner
 import onnxruntime as ort
 from fastcore.all import *
 from torch import tensor
 
 # Cell
+#export
 @patch
 def to_onnx(x:Learner, fname='export', path=Path('.')):
     "Export model to `ONNX` format"
@@ -27,9 +29,11 @@ def to_onnx(x:Learner, fname='export', path=Path('.')):
     torch.save(data_exp, path/f'{fname}.pkl', pickle_protocol=2)
 
 # Cell
+#export
 from .inference.inference import _fully_decode, _decode_loss
 
 # Cell
+#export
 class fastONNX():
     "ONNX wrapper for `Learner`"
     def __init__(self, fn):

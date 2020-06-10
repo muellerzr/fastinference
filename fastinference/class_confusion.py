@@ -9,6 +9,7 @@ from fastcore.dispatch import typedispatch, patch
 import matplotlib
 
 # Cell
+#export
 try:
     from google.colab import widgets
 except ImportError:
@@ -16,6 +17,7 @@ except ImportError:
 from tqdm import tqdm
 
 # Cell
+#export
 @typedispatch
 def _get_names(x:TabDataLoader, idxs, mc=None, varlist=None, li=None):
     "Creates names for the tabs"
@@ -27,6 +29,7 @@ def _get_names(x:TabDataLoader, idxs, mc=None, varlist=None, li=None):
     return [tbnames, boxes, cols, rows, None]
 
 # Cell
+#export
 @typedispatch
 def _get_names(x:TfmdDL, idxs, mc=None, varlist=None, li=None):
     ranges = []
@@ -141,6 +144,7 @@ def _plot(x:TabDataLoader, interp, idxs, combs, tab, i=None, boxes=None, cols=No
                 print("Less than two unique values, cannot graph the KDE")
 
 # Cell
+#export
 class ClassConfusion():
     "Plots the most confused datapoints and statistics for model misses. First is prediction second is actual"
     def __init__(self, learn, dl=None, cut_off=100, is_ordered=False, classlist=[],
