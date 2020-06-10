@@ -3,7 +3,8 @@
 __all__ = ['ClassConfusion']
 
 # Cell
-from fastai2.tabular.all import *
+from fastai2.tabular.data import TabDataLoader
+from fastai2.data.transforms import TfmdDL
 
 # Cell
 try:
