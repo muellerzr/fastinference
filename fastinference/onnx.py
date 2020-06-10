@@ -20,7 +20,7 @@ def to_onnx(x:Learner, fname='export', path=Path('.')):
     torch.onnx.export(x.model, dummy_inp[:-1], path/f'{fname}.onnx',
                      input_names=names, output_names=['output'],
                      dynamic_axes=dynamic_axes)
-    data_exp = x.new_empty()
+    data_exp = x.dls.new_empty()
     torch.save(data_exp, path/f'{fname}.pkl', pickle_protocol=2)
 
 # Cell
