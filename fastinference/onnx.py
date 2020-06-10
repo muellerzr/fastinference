@@ -21,6 +21,7 @@ def to_onnx(x:Learner, fname='export', path=Path('.')):
                      input_names=names, output_names=['output'],
                      dynamic_axes=dynamic_axes)
     data_exp = x.dls.new_empty()
+    data_exp.loss_func = x.loss_func
     torch.save(data_exp, path/f'{fname}.pkl', pickle_protocol=2)
 
 # Cell
@@ -37,8 +38,7 @@ class fastONNX():
         except:
             self.ort_session.set_providers(['CPUExecutionProvider'])
             cpu = True
-        self.learn = load_learner(fn+'.pkl')
-        self.learn.model = None
+        self.dls = torch.load(fn+'.pkl')
 
     def to_numpy(self, t:tensor): return t.detach.cpu().numpy() if t.requires_grad else t.cpu().numpy()
 
@@ -53,8 +53,8 @@ class fastONNX():
     def get_preds(self, dl=None, raw_outs=False, decoded_loss=True, fully_decoded=False):
         "Get predictions with possible decoding"
         inps, outs, dec_out, raw = [], [], [], []
-        loss_func = self.learn.loss_func
-        is_multi, n_inp = False, self.learn.dls.n_inp
+        loss_func = self.dls.loss_func
+        is_multi, n_inp = False, self.dls.n_inp
         if n_inp > 1:
             is_multi = true
             [inps.append([]) for _ in range(n_inp)]
@@ -82,8 +82,8 @@ class fastONNX():
             except: outs.insert(0, dec_out)
         else:
             outs.insert(0, raw)
-        if fully_decoded: outs = _fully_decode(self.learn.dls, inps, outs, dec_out, is_multi)
-        if decoded_loss: outs = _decode_loss(self.learn.dls.vocab, dec_out, outs)
+        if fully_decoded: outs = _fully_decode(self.dls, inps, outs, dec_out, is_multi)
+        if decoded_loss: outs = _decode_loss(self.dls.vocab, dec_out, outs)
         return outs
 
-    def test_dl(self, test_items, **kwargs): return self.learn.dls.test_dl(test_items, **kwargs)
+    def test_dl(self, test_items, **kwargs): return self.dls.test_dl(test_items, **kwargs)
