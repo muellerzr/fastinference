@@ -71,6 +71,7 @@ def get_preds(x:TextLearner, ds_idx=1, dl=None, raw_outs=False, decoded_loss=Tru
 @patch
 def predict(x:LMLearner, text, n_words=1, no_unk=True, temperature=1., min_p=None,
                 decoder=decode_spec_tokens, only_last_word=False):
+        "Predict `n_words` from `text`"
         x.model.reset()
         idxs = idxs_all = x.dls.test_dl([text]).items[0].to(x.dls.device)
         unk_idx = x.dls.vocab.index(UNK)
