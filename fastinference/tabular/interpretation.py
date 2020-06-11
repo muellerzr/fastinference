@@ -4,13 +4,15 @@ __all__ = ['base_error']
 
 # Cell
 from fastai2.tabular.all import *
+from scipy.cluster import hierarchy as hc
+from sklearn import manifold
 
 # Cell
 def base_error(err, val): return (err/val)/err
 
 # Cell
 @patch
-def feature_importance(x:TabularLearner, df=None, perm_func=base_error, metric=accuracy, bs=None, reverse=True, plot=True):
+def feature_importance(x:TabularLearner, df=None, dl=None, perm_func=base_error, metric=accuracy, bs=None, reverse=True, plot=True):
     "Calculate and plot the Feature Importance based on `df`"
     x.df = df
     bs = bs if bs is not None else x.dls.bs
@@ -68,3 +70,61 @@ def _plot_importance(df:pd.DataFrame, limit=20, asc=False, **kwargs):
     ax = df_copy.plot.barh(x='feature', y='importance', sort_columns=True, **kwargs)
     for p in ax.patches:
         ax.annotate(f'{p.get_width():.4f}', ((p.get_width() * 1.005), p.get_y()  * 1.005))
+
+# Cell
+def _get_top_corr(df, matrix, thresh:float=0.8):
+    corr = np.where(abs(matrix) < thresh,0,matrix)
+    idxs = []
+    for i in range(corr.shape[0]):
+        if (corr[i,:].sum() + corr[:, i].sum() > 2):
+            idxs.append(i)
+    cols = df.columns[idxs]
+    return pd.DataFrame(corr[np.ix_(idxs,idxs)], columns=cols, index=cols)
+
+# Cell
+def _cramers_corrected_stat(cm):
+    "Calculates Cramers V Statistic for categorical-categorical"
+    try: chi2 = scipy.stats.chi2_contingency(cm)[0]
+    except: return 0.0
+
+    if chi2 == 0: return 0.0
+    n = cm.sum().sum()
+    phi2 = chi2 / n
+    r,k = cm.shape
+    phi2corr = max(0, phi2 - ((k-1)*(r-1))/(n-1))
+    rcorr = r - ((r-1)**2)/(n-1)
+    kcorr = k - ((k-1)**2)/(n-1)
+    return np.sqrt(phi2corr/min((kcorr-1), (rcorr-1)))
+
+# Cell
+def _get_cramer_v_matr(dl:TabDataLoader):
+    "Calculate Cramers V statistic on every pair in `df`'s columns'"
+    df = dl.xs
+    cols = list(df.columns)
+    corrM = np.zeros((len(cols), len(cols)))
+    for col1, col2 in progress_bar(list(itertools.combinations(cols, 2))):
+        idx1, idx2 = cols.index(col1), cols.index(col2)
+        corrM[idx1,idx2] = _cramers_corrected_stat(pd.crosstab(df[col1], df[col2]))
+        corrM[idx2, idx1] = corrM[idx1, idx2]
+    np.fill_diagonal(corrM, 1.0)
+    return corrM
+
+# Cell
+def _get_top_corr_dict_corrs(top_corrs):
+    cols = top_corrs.columns
+    top_corrs_np = top_corrs.to_numpy()
+    corr_dict = {}
+    for i in range(top_corrs_np.shape[0]):
+        for j in range(i+1, top_corrs_np.shape[0]):
+            if top_corrs_np[i,j] > 0:
+                corr_dict[cols[i] + ' vs ' + cols[j]] = np.round(top_corrs_np[i,j],3)
+    return OrderedDict(sorted(corr_dict.items(), key=lambda kv: abs(kv[1]), reverse=True))
+
+# Cell
+@patch
+def get_top_corr_dict(x:TabularLearner, df:pd.DataFrame, thresh:float=0.8):
+    "Grabs top pairs of correlation with a given correlation matrix on `df` filtered by `thresh`"
+    dl = x.dls.test_dl(df)
+    matrix = _get_cramer_v_matr(dl)
+    top_corrs = _get_top_corr(df, matrix, thresh=thresh)
+    return _get_top_corr_dict_corrs(top_corrs)
