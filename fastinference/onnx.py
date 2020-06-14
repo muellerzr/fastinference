@@ -8,7 +8,7 @@ from fastai2.learner import Learner
 import onnxruntime as ort
 from fastcore.all import *
 import torch
-from torch import tensor
+from torch import tensor, Tensor
 
 # Cell
 #export
