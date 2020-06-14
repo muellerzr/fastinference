@@ -31,7 +31,7 @@ def to_onnx(x:Learner, fname='export', path=Path('.')):
 
 # Cell
 #export
-from .inference.inference import _fully_decode, _decode_loss
+from .inference.inference import _decode_loss
 
 # Cell
 #export
@@ -89,7 +89,6 @@ class fastONNX():
             except: outs.insert(0, dec_out)
         else:
             outs.insert(0, raw)
-        if fully_decoded: outs = _fully_decode(self.dls, tensor(inps), tensor(outs), dec_out, is_multi)
         if decoded_loss: outs = _decode_loss(self.dls.vocab, dec_out, outs)
         return outs
 
