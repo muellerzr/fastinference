@@ -1,0 +1,28 @@
+{
+    "root": "/media/mldata/fastai2/zach/fastinference",
+    "program": "<python with no main file>",
+    "git": {
+        "remote": "https://github.com/muellerzr/fastinference.git",
+        "commit": "4cd54b8c35bf3574c9f4b85990b960febab1db81"
+    },
+    "email": "muellerzr@gmail.com",
+    "startedAt": "2020-06-11T04:57:32.970293",
+    "host": "ml1-B250-HD3",
+    "username": "ml1",
+    "executable": "/home/ml1/anaconda3/envs/fastai2/bin/python",
+    "os": "Linux-4.15.0-101-generic-x86_64-with-debian-buster-sid",
+    "python": "3.7.7",
+    "gpu": "GeForce RTX 2080",
+    "gpu_count": 1,
+    "cpu_count": 4,
+    "args": [
+        "-f",
+        "/home/ml1/.local/share/jupyter/runtime/kernel-d1f5d0a5-71df-4f09-a330-58d4f0251ef0.json"
+    ],
+    "state": "running",
+    "jobType": null,
+    "mode": "run",
+    "name": "lyric-wildflower-1",
+    "project": "fastinference-nbs",
+    "heartbeatAt": "2020-06-11T04:57:59.607194"
+}

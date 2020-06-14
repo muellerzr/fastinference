@@ -61,7 +61,8 @@ def get_preds(x:Learner, ds_idx=1, dl=None, raw_outs=False, decoded_loss=True, f
             else:
                 raw.append(x.model(*batch[:x.dls.n_inp]))
     raw = torch.cat(raw, dim=0).cpu().numpy()
-    dec_out = torch.cat(dec_out, dim=0)
+    if fully_decoded or decoded_loss:
+        dec_out = torch.cat(dec_out, dim=0)
     if not raw_outs:
         try: outs.insert(0, x.loss_func.activation(tensor(raw)).numpy())
         except: outs.insert(0, dec_out)

@@ -128,3 +128,17 @@ def get_top_corr_dict(x:TabularLearner, df:pd.DataFrame, thresh:float=0.8):
     matrix = _get_cramer_v_matr(dl)
     top_corrs = _get_top_corr(df, matrix, thresh=thresh)
     return _get_top_corr_dict_corrs(top_corrs)
+
+# Cell
+@patch
+def plot_dendrogram(x:TabularLearner, df:pd.DataFrame, figsize=None, leaf_font_size=16):
+    "Plots dendrogram for a calculated correlation matrix"
+    dl = x.dls.test_dl(df)
+    matrix = _get_cramer_v_matr(dl)
+    if figsize is None:
+        figsize = (15, 0.02*leaf_font_size*len(dl.x_names))
+    corr_condensed = hc.distance.squareform(1-matrix)
+    z = hc.linkage(corr_condensed, method='average')
+    fig = plt.figure(figsize=figsize)
+    dendrogram = hc.dendrogram(z, labels=dl.x_names, orientation='left', leaf_font_size = leaf_font_size)
+    plt.show()
