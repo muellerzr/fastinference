@@ -9,8 +9,10 @@
     "Class Confusion": {
         "Overview": "/class_confusion"
     },
-    "Interpretation": {
-        "Tabular": "/tabular.interpretation"
+    "Tabular": {
+        "Core": "/tabular.core",
+        "Interpretation": "/tabular.interpretation",
+        "Waterfall": "/tabular.waterfall"
     },
     "SHAP":{
         "Core": "/shap.core",
