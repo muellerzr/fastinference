@@ -28,10 +28,16 @@ entries:
     title: Class Confusion
   - folderitems:
     - output: web,pdf
-      title: Tabular
+      title: Core
+      url: /tabular.core
+    - output: web,pdf
+      title: Interpretation
       url: /tabular.interpretation
+    - output: web,pdf
+      title: Waterfall
+      url: /tabular.waterfall
     output: web
-    title: Interpretation
+    title: Tabular
   - folderitems:
     - output: web,pdf
       title: Core
