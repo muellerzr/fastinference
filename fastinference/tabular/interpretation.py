@@ -8,7 +8,7 @@ from scipy.cluster import hierarchy as hc
 from sklearn import manifold
 
 # Cell
-def base_error(err, val): return (err/val)/err
+def base_error(err, val): return (err-val)/err
 
 # Cell
 @patch
