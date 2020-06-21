@@ -10,6 +10,7 @@ from fastcore.dispatch import typedispatch, patch
 import matplotlib, itertools, math
 from matplotlib import pyplot as plt
 import re
+import pandas as pd
 
 # Cell
 #export
