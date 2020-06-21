@@ -14,7 +14,7 @@ class ShapInterpretation():
         "Initialize `ShapInterpretation` with a Learner, test_data, link, `n_samples`, `l1_reg`, and optional **kwargs"
         self.model = learn.model
         self.dls = learn.dls
-        self.class_names = learn.dl.vocab if hasattr(learn.dl, 'vocab') else None # only defined for classification problems
+        self.class_names = learn.dls.vocab if hasattr(learn.dls, 'vocab') else None # only defined for classification problems
         self.train_data = pd.merge(learn.dls.cats, learn.dls.conts, left_index=True, right_index=True)
         self.test_data = _prepare_data(learn, test_data, n_samples)
         pred_func = partial(_predict, learn)
