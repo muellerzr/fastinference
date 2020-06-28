@@ -210,19 +210,21 @@ class InterpretWaterfall(Interpret):
             height=height,
         )
         fig.update_yaxes(showticklabels=False)
+        fig.update_xaxes(showticklabels=False)
 
         return fig
 
 
     def _plot_force_df_perc(self, force_df, name=None):
         """
-        Plot forced with perc column (useful in classifications)
+        Plot forced with perc column (useful in biclassifications)
         """
+        learn = self.learn
         height = max(600, int(len(force_df) / 3 * 100))
         x, text, y = [], [], []
         for i, row in force_df.iterrows():
             y.append(row['feature'][:100])
-            text.append(f"{row['overall']} ({row['diff_perc']:+.2f}%)")
+            text.append(f"{row['overall']:.5f} ({row['diff_perc']:+.2f}%)")
             x.append(row['overall_diff'])
 
         fig = go.Figure(go.Waterfall(
@@ -235,7 +237,9 @@ class InterpretWaterfall(Interpret):
             connector={"line": {"color": "rgb(63, 63, 63)"}},
         ))
 
-        title = "Analysis " if isNone(name) else f"Analysis of {name}"
+        clss = learn.dls.vocab[0]
+        title = "" if isNone(name) else f"Analysis of {name}"
+        title = f"{title}\n Probability of item is '{clss}'"
         fig.update_layout(
             title=title,
             showlegend=False,
@@ -249,12 +253,13 @@ class InterpretWaterfall(Interpret):
         """
         Get the force field calculated earlier as plotly figure
         """
-        use_log = self.use_log
+        learn = self.learn
+        is_biclassification = True if (learn.dls.c == 2) else False
         df = self._explain_forces(forces_show=forces_show)
-        if (use_log == True):
-            return self._plot_force_df(force_df=df, name=name)
-        else:
+        if (is_biclassification == True):
             return self._plot_force_df_perc(force_df=df, name=name)
+        else:
+            return self._plot_force_df_coef(force_df=df, name=name)
 
     def plot_forces(self, name=None, forces_show=20):
         """
