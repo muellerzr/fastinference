@@ -54,7 +54,7 @@ def get_preds(x:Learner, ds_idx=1, dl=None, raw_outs=False, decoded_loss=True, f
                     for i in range(x.dls.n_inp):
                         inps[i].append(batch[i].cpu())
                 else:
-                    inps.append(batch[:x.dls.n_inp].cpu())
+                    inps.append(batch[0].cpu())
             if decoded_loss or fully_decoded:
                 out = x.model(*batch[:x.dls.n_inp])
                 raw.append(out)
