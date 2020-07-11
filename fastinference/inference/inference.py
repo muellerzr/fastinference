@@ -49,7 +49,7 @@ def get_preds(x:Learner, ds_idx=1, dl=None, raw_outs=False, decoded_loss=True, f
     x.model.eval()
     for batch in dl:
         with torch.no_grad():
-            if fully decoded:
+            if fully_decoded:
                 if is_multi:
                     for i in range(x.dls.n_inp):
                         inps[i].append(batch[i].cpu())
