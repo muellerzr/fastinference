@@ -5,6 +5,7 @@ __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 index = {"Learner.get_preds": "00_inference.ipynb",
          "Learner.predict": "00_inference.ipynb",
          "TabularLearner.predict": "00_inference.ipynb",
+         "TabularLearner.to_fastinference": "01_tabular.core.ipynb",
          "Interpret": "01_tabular.core.ipynb",
          "sv_var": "01_tabular.core.ipynb",
          "ld_var": "01_tabular.core.ipynb",
