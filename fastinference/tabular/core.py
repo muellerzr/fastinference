@@ -50,7 +50,12 @@ def _get_procs(dls):
         categorize[c] = {v: k for k, v in categorize[c].items()}
         categorize[c].pop('#na#')
         categorize[c][np.nan] = 0
-    return {'FillMissing':fm, 'Normalize':norm, 'Categorize':categorize, 'Inputs':names, 'Outputs':list(dls.categorize.vocab)}
+
+    try:
+        classes = dls.categorize.vocab
+    except:
+        classes = ['regression']
+    return {'FillMissing':fm, 'Normalize':norm, 'Categorize':categorize, 'Inputs':names, 'Outputs':classes}
 
 # Cell
 @patch
