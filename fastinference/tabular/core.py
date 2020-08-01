@@ -6,66 +6,6 @@ __all__ = ['Interpret', 'sv_var', 'ld_var', 'list_diff', 'which_elms', 'is_in_li
 from fastai2.tabular.all import *
 
 # Cell
-from pickle import load, dump
-from bz2 import BZ2File
-import pandas as pd
-import pickle
-
-# Cell
-def _merge_tfms(means, stds):
-    "merge mean and std to singular dictionary"
-    names = means.keys()
-    merged = {}
-    for n in names:
-        mean, std = means[n], stds[n]
-        merged[n] = {'mean':mean, 'std':std}
-    return merged
-
-# Cell
-def _get_procs(dls):
-    "Extract tabular `procs` from `dls` and get indicies of `NumPy`"
-    fm = dls.procs.fill_missing
-    na_dict = getattr(fm, 'na_dict')
-    add_col = getattr(fm, 'add_col')
-    fm = {'na_dict':na_dict, 'add_col':add_col}
-
-    norm = dls.procs.normalize
-    means = getattr(norm, 'means').to_dict()
-    stds = getattr(norm, 'stds').to_dict()
-    norm = _merge_tfms(means, stds)
-
-    cat_names = dls.cat_names
-    cont_names = dls.cont_names
-
-    name2idx = {name:n for n,name in enumerate(dls.dataset) if name in cat_names or name in cont_names}
-    idx2name = {v: k for k, v in name2idx.items()}
-
-    cat_idxs = {name2idx[name]:name for name in cat_names}
-    cont_idxs = {name2idx[name]:name for name in cont_names}
-    names = {'cats':cat_idxs, 'conts':cont_idxs}
-
-    categorize = dls.procs.categorify.classes.copy()
-    for i,c in enumerate(categorize):
-        categorize[c] = {a:b for a,b in enumerate(categorize[c])}
-        categorize[c] = {v: k for k, v in categorize[c].items()}
-        categorize[c].pop('#na#')
-        categorize[c][np.nan] = 0
-
-    try:
-        classes = dls.categorize.vocab
-    except:
-        classes = ['regression']
-    return {'FillMissing':fm, 'Normalize':norm, 'Categorize':categorize, 'Inputs':names, 'Outputs':classes}
-
-# Cell
-@patch
-def to_fastinference(x:TabularLearner, fname='export', path=Path('.')):
-    "Export data for `fastinference_onnx` or `_pytorch` to use"
-    procs = _get_procs(x.dls)
-    with open(path/f'{fname}.pkl', 'wb') as handle:
-        picle.dump(procs, handle, protocol=pickle.HIGHEST_PROTOCOL)
-
-# Cell
 class Interpret():
     def __init__(self, learn, df):
         """

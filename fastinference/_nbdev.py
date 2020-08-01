@@ -5,7 +5,12 @@ __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 index = {"Learner.get_preds": "00_inference.ipynb",
          "Learner.predict": "00_inference.ipynb",
          "TabularLearner.predict": "00_inference.ipynb",
-         "TabularLearner.to_fastinference": "01_tabular.core.ipynb",
+         "LMLearner.get_preds": "00a_inference.text.ipynb",
+         "TextLearner.get_preds": "00a_inference.text.ipynb",
+         "LMLearner.predict": "00a_inference.text.ipynb",
+         "TextLearner.intrinsic_attention": "00a_inference.text.ipynb",
+         "get_information": "00b_inference.export.ipynb",
+         "Learner.to_fastinference": "00b_inference.export.ipynb",
          "Interpret": "01_tabular.core.ipynb",
          "sv_var": "01_tabular.core.ipynb",
          "ld_var": "01_tabular.core.ipynb",
@@ -26,13 +31,11 @@ index = {"Learner.get_preds": "00_inference.ipynb",
          "ClassConfusion": "02_class_confusion.ipynb",
          "ShapInterpretation": "02_shap.interp.ipynb",
          "Learner.to_onnx": "03_onnx.ipynb",
-         "fastONNX": "03_onnx.ipynb",
-         "LMLearner.get_preds": "04_text.inference.ipynb",
-         "TextLearner.get_preds": "04_text.inference.ipynb",
-         "LMLearner.predict": "04_text.inference.ipynb",
-         "TextLearner.intrinsic_attention": "04_text.inference.ipynb"}
+         "fastONNX": "03_onnx.ipynb"}
 
 modules = ["inference/inference.py",
+           "inference/text.py",
+           "inference/export.py",
            "tabular/core.py",
            "tabular/interpretation.py",
            "tabular/pd.py",
@@ -40,8 +43,7 @@ modules = ["inference/inference.py",
            "class_confusion.py",
            "tabular/shap/core.py",
            "tabular/shap/interp.py",
-           "onnx.py",
-           "inference/text.py"]
+           "onnx.py"]
 
 doc_url = "https://muellerzr.github.io/fastinference/"
 
