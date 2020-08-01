@@ -7,18 +7,26 @@ from fastai2.vision.all import *
 from fastai2.tabular.all import *
 
 # Cell
-def _fully_decode(dl, inps, outs, dec_out, is_multi):
+@typedispatch
+def _fully_decode(dl:TfmdDL, inps, outs):
     "Attempt to fully decode the `inp"
-    if is_multi:
-        for i in range(dl.n_inp):
-            inps[i] = torch.cat(inps[i], dim=0)
-    else:
-        inps = tensor(*inps[0])
-    b = (*tuplify(inps), *tuplify(dec_out))
-    try:
-        outs.insert(len(outs), dl.decode_batch(b))
-    except:
-        outs.insert(len(outs), dl.decode(b))
+    inps = dl.decode(inps)
+    dec = []
+    for d in inps:
+        for e in d:
+            e = retain_type(e, typ=type(d))
+            dec.append(e)
+    outs.insert(len(outs), dec)
+    return outs
+
+# Cell
+@typedispatch
+def _fully_decode(dl:TabDataLoader, inps, outs):
+    "Attempt to fully decode the `inp"
+    for i in range(dl.n_inp):
+        inps[i] = torch.cat(inps[i], dim=0)
+    dec = dl.decode(inps)
+    outs.insert(len(outs), dec)
     return outs
 
 # Cell
@@ -40,27 +48,24 @@ def _decode_loss(vocab, dec_out, outs):
 def get_preds(x:Learner, ds_idx=1, dl=None, raw_outs=False, decoded_loss=True, fully_decoded=False,
              **kwargs):
     "Get predictions with possible decoding"
-    inps, outs, dec_out, raw = [], [], [], []
+    inps, outs, dec_out, raw,n_inp,is_multi = [], [], [], [], x.dls.n_inp,False
     if dl is None: dl = x.dls[ds_idx].new(shuffle=False, drop_last=False)
-    is_multi=False
-    if x.dls.n_inp > 1:
-        is_multi=True
-        [inps.append([]) for _ in range(x.dls.n_inp)]
+    if n_inp > 1:
+        is_multi = True
+        [inps.append([]) for _ in range(n_inp)]
     x.model.eval()
     for batch in dl:
         with torch.no_grad():
             if fully_decoded:
                 if is_multi:
-                    for i in range(x.dls.n_inp):
+                    for i in range(n_inp):
                         inps[i].append(batch[i].cpu())
                 else:
-                    inps.append(batch[0].cpu())
+                    inps += batch[:n_inp]
+            out = x.model(*batch[:n_inp])
+            raw.append(out)
             if decoded_loss or fully_decoded:
-                out = x.model(*batch[:x.dls.n_inp])
-                raw.append(out)
                 dec_out.append(x.loss_func.decodes(out))
-            else:
-                raw.append(x.model(*batch[:x.dls.n_inp]))
     raw = torch.cat(raw, dim=0).cpu().numpy()
     if fully_decoded or decoded_loss:
         dec_out = torch.cat(dec_out, dim=0)
@@ -69,7 +74,7 @@ def get_preds(x:Learner, ds_idx=1, dl=None, raw_outs=False, decoded_loss=True, f
         except: outs.insert(0, dec_out)
     else:
         outs.insert(0, raw)
-    if fully_decoded: outs = _fully_decode(x.dls, inps, outs, dec_out, is_multi)
+    if fully_decoded: outs = _fully_decode(x.dls[0], inps, outs)
     if decoded_loss: outs = _decode_loss(x.dls.vocab, dec_out, outs)
     return outs
 
