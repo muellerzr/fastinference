@@ -4,15 +4,31 @@ __all__ = []
 
 # Cell
 from fastai2.text.all import *
-from .inference import _fully_decode, _decode_loss
+from .inference import _decode_loss
 import matplotlib.cm as cm
 import html
 from IPython.display import display, HTML
 
 # Cell
+def _decode_texts(dl, texts, outs, decoder=decode_spec_tokens):
+    "Decode a list of tokenized `texts`"
+    dec_texts, num = [], dl.dataset.numericalize
+    def _inner(o,num,dl):
+        tokens = [num.vocab[i] for i in o if num.vocab[i] not in [BOS,PAD]]
+        sep = dl.dataset.tokenizer[-1].sep
+        return sep.join(decoder(tokens))
+    for batch in texts:
+        for text in batch:
+            if isinstance(text, TensorText):
+                for text in batch[0]:
+                    dec_texts.append(_inner(text,num,dl))
+    outs.insert(len(outs), dec_texts)
+    return outs
+
+# Cell
 @patch
-def get_preds(x:LMLearner, ds_idx=1, dl=None, raw_outs=False, decoded_loss=True, fully_decoded=False, concat_dim=0,
-             **kwargs):
+def get_preds(x:LMLearner, ds_idx=1, dl=None, raw_outs=False, decoded_loss=True, fully_decoded=False, cat_dim=0,
+             decoder=decode_spec_tokens, **kwargs):
     "Get predictions with possible decoding"
     inps, outs, dec_out, raw = [], [], [], []
     if dl is None: dl = x.dls[ds_idx].new(shuffle=False, drop_last=False)
@@ -26,7 +42,7 @@ def get_preds(x:LMLearner, ds_idx=1, dl=None, raw_outs=False, decoded_loss=True,
                 dec_out.append(x.loss_func.decodes(out))
             else:
                 raw.append(x.model(*batch[:x.dls.n_inp])[0])
-    raw = torch.cat(raw, dim=concat_dim).cpu().numpy()
+    raw = torch.cat(raw, dim=cat_dim).cpu().numpy()
     if decoded_loss or fully_decoded:
         dec_out = torch.cat(dec_out, dim=0)
     if not raw_outs:
@@ -34,14 +50,14 @@ def get_preds(x:LMLearner, ds_idx=1, dl=None, raw_outs=False, decoded_loss=True,
         except: outs.insert(0, dec_out)
     else:
         outs.insert(0, raw)
-    if fully_decoded: outs = _fully_decode(x.dls, inps, outs, dec_out, False)
+    if fully_decoded: outs = _decode_texts(x.dls[0], inps, outs, decoder=decoder)
     if decoded_loss: outs = _decode_loss(x.dls.categorize.vocab, dec_out, outs)
     return outs
 
 # Cell
 @patch
 def get_preds(x:TextLearner, ds_idx=1, dl=None, raw_outs=False, decoded_loss=True, fully_decoded=False,
-             **kwargs):
+             decoder=decode_spec_tokens, **kwargs):
     "Get predictions with possible decoding"
     inps, outs, dec_out, raw = [], [], [], []
     if dl is None: dl = x.dls[ds_idx].new(shuffle=False, drop_last=False)
@@ -63,7 +79,7 @@ def get_preds(x:TextLearner, ds_idx=1, dl=None, raw_outs=False, decoded_loss=Tru
         except: outs.insert(0, dec_out)
     else:
         outs.insert(0, raw)
-    if fully_decoded: outs = _fully_decode(x.dls, inps, outs, dec_out, False)
+    if fully_decoded: outs = _decode_texts(x.dls[0], inps, outs, decoder=decoder)
     if decoded_loss: outs = _decode_loss(x.dls.categorize.vocab, dec_out, outs)
     return outs
 
