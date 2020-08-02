@@ -23,6 +23,7 @@ def _make_tfm_dict(tfms, type_tfm=False):
         if hasattr(tfm, 'store_attrs') and not isinstance(tfm, AffineCoordTfm):
             if type_tfm or tfm.split_idx is not 0:
                 tfm_dict,name = _gen_dict(tfm)
+                tfm_dict = to_list(tfm_dict)
                 tfm_dicts[name] = tfm_dict
     return tfm_dicts
 
@@ -35,6 +36,7 @@ def _extract_tfm_dicts(dl:TfmdDL):
     tfm_dicts = {}
     for attr in attrs:
         tfm_dicts[attr] = _make_tfm_dict(getattr(dl, attr), type_tfm)
+        if attr == 'after_item': tfm_dicts[attr]['ToTensor'] = True
         type_tfm = False
     return tfm_dicts
 
@@ -54,7 +56,7 @@ def _extract_tfm_dicts(dl:TabDataLoader):
     tfms = {}
     for t in types.split(','):
         tfm = getattr(dl, t)
-        tfms[t] = attrdict(tfm, *tfm.store_attrs.split(','))
+        tfms[t] = to_list(attrdict(tfm, *tfm.store_attrs.split(',')))
     return tfms
 
 # Cell
