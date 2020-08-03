@@ -31,12 +31,15 @@ def _make_tfm_dict(tfms, type_tfm=False):
 @typedispatch
 def _extract_tfm_dicts(dl:TfmdDL):
     "Extracts all transform params from `dl`"
-    type_tfm = True
+    type_tfm,use_images = True,False
     attrs = ['tfms','after_item','after_batch']
     tfm_dicts = {}
     for attr in attrs:
         tfm_dicts[attr] = _make_tfm_dict(getattr(dl, attr), type_tfm)
-        if attr == 'after_item': tfm_dicts[attr]['ToTensor'] = True
+        if attr == 'tfms':
+            if getattr(dl,attr)[0][1].name == 'PILBase.create':
+                use_images=True
+        if attr == 'after_item': tfm_dicts[attr]['ToTensor'] = {'is_image':use_images}
         type_tfm = False
     return tfm_dicts
 
@@ -63,10 +66,8 @@ def _extract_tfm_dicts(dl:TabDataLoader):
 @patch
 def to_fastinference(x:Learner, data_fname='data', model_fname='model', path=Path('.')):
     "Export data for `fastinference_onnx` or `_pytorch` to use"
+    if not isinstance(path,Path): path = Path(path)
     dicts = get_information(x.dls)
     with open(path/f'{data_fname}.pkl', 'wb') as handle:
-        pickle.dump(procs, handle, protocol=pickle.HIGHEST_PROTOCOL)
-    x._end_cleanup()
-    state = x.opt.state_dict() if x.opt is not None else None
-    x.opt = None
-    torch.save(x.model.state_dict(), path/f'{model_fname}.pkl')
+        pickle.dump(dicts, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    torch.save(x.model, path/f'{model_fname}.pkl')

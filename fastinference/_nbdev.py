@@ -30,7 +30,6 @@ index = {"Learner.get_preds": "00_inference.ipynb",
          "TfmdDL.get_losses": "02_class_confusion.ipynb",
          "ClassConfusion": "02_class_confusion.ipynb",
          "ShapInterpretation": "02_shap.interp.ipynb",
-         "Learner.to_onnx": "03_onnx.ipynb",
          "fastONNX": "03_onnx.ipynb"}
 
 modules = ["inference/inference.py",

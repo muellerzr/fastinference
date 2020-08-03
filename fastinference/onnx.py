@@ -3,31 +3,12 @@
 __all__ = ['fastONNX']
 
 # Cell
-# export
 from fastai2.learner import Learner
-import onnxruntime as ort
 from fastcore.all import *
 import torch
 from torch import tensor, Tensor
 
-# Cell
-#export
-@patch
-def to_onnx(x:Learner, fname='export', path=Path('.')):
-    "Export model to `ONNX` format"
-    orig_bs = x.dls[0].bs
-    x.dls[0].bs=1
-    dummy_inp = next(iter(x.dls[0]))
-    x.dls[0].bs = orig_bs
-    names = inspect.getfullargspec(x.model.forward).args[1:]
-    dynamic_axes = {n:{0:'batch_size'} for n in names}
-    dynamic_axes['output'] = {0:'batch_size'}
-    torch.onnx.export(x.model, dummy_inp[:-1], path/f'{fname}.onnx',
-                     input_names=names, output_names=['output'],
-                     dynamic_axes=dynamic_axes)
-    data_exp = x.dls.new_empty()
-    data_exp.loss_func = x.loss_func
-    torch.save(data_exp, path/f'{fname}.pkl', pickle_protocol=2)
+import onnxruntime as ort
 
 # Cell
 #export
