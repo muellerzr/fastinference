@@ -6,10 +6,10 @@
 
 We have 4 modules you can install, depending on your usecase:
 
-Base Library (Just inference stuff): `pip install fastinference`
-ONNX Inference: `pip install fastinference[onnxcpu]` or `fastinference[onnxgpu]`
-Interperatability (Class Confusion + SHAP): `pip install fastinference[interp]`
-Everything: `pip install fastinference[all]`
+* Base Library (Just inference stuff): `pip install fastinference`
+* ONNX Inference: `pip install fastinference[onnx-cpu]` or `fastinference[onnx-gpu]`
+* Interperatability (Class Confusion + SHAP): `pip install fastinference[interp]`
+* Everything: `pip install fastinference[all]`
 
 ## Wonderful Contributors:
 
