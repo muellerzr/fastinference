@@ -46,8 +46,8 @@ interp = parse_requirements("interp")
 all_req = parse_requirements("all")
 
 extras = {}
-extras["onnxgpu"] = ['onnxruntime-gpu']
-extras["onnxcpu"] = ['onnxruntime-cpu']
+extras["onnx-gpu"] = ['onnxruntime-gpu']
+extras["onnx-cpu"] = ['onnxruntime-cpu']
 extras["interp"] = ['plotly', 'plotnine']
 extras["all"] = ['fastai2', 'onnxruntime-gpu', 'plotly', 'plotnine']
 
