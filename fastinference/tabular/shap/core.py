@@ -3,6 +3,11 @@
 __all__ = []
 
 # Cell
+from ...soft_dependencies import SoftDependencies
+if not SoftDependencies.check()['interp']:
+    raise ImportError("The interp module is not installed.")
+
+# Cell
 from fastai2.tabular.all import *
 
 # Cell

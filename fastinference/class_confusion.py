@@ -3,6 +3,11 @@
 __all__ = ['ClassConfusion']
 
 # Cell
+from .soft_dependencies import SoftDependencies
+if not SoftDependencies.check()['interp']:
+    raise ImportError("The interp module is not installed.")
+
+# Cell
 from fastai2.tabular.data import TabDataLoader
 from fastai2.data.transforms import TfmdDL
 from fastai2.interpret import ClassificationInterpretation

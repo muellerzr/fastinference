@@ -3,6 +3,11 @@
 __all__ = ['Interpret', 'sv_var', 'ld_var', 'list_diff', 'which_elms', 'is_in_list', 'listify', 'isNone', 'isNotNone']
 
 # Cell
+from ..soft_dependencies import SoftDependencies
+if not SoftDependencies.check()['interp']:
+    raise ImportError("The interp module is not installed.")
+
+# Cell
 from fastai2.tabular.all import *
 
 # Cell

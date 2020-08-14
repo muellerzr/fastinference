@@ -3,6 +3,11 @@
 __all__ = []
 
 # Cell
+from ..soft_dependencies import SoftDependencies
+if not SoftDependencies.check()['light']:
+    raise ImportError("The fastai2 module is not installed.")
+
+# Cell
 from fastai2.vision.all import *
 from fastai2.tabular.all import *
 

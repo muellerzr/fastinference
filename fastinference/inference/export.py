@@ -57,10 +57,31 @@ def _extract_tfm_dicts(dl:TabDataLoader):
     if hasattr(dl, 'categorize'): types += ',categorize'
     if hasattr(dl, 'regression_setup'): types += ',regression_setup'
     tfms = {}
+    name2idx = {name:n for n,name in enumerate(dl.dataset) if name in dl.cat_names or name in dl.cont_names}
+    idx2name = {v:k for k,v in name2idx.items()}
+    cat_idxs = {name2idx[name]:name for name in cat_names}
+    cont_idxs = {name2idx[name]:name for name in cont_names}
+    names = {'cats':cat_idxs, 'conts':cont_idxs}
+    tfms['encoder'] = names
     for t in types.split(','):
         tfm = getattr(dl, t)
         tfms[t] = to_list(attrdict(tfm, *tfm.store_attrs.split(',')))
-    return tfms
+
+    categorize = dl.procs.categorify.classes.copy()
+    for i,c in enumerate(categorize):
+        categorize[c] = {a:b for a,b in enumerate(categorize[c])}
+        categorize[c] = {v: k for k, v in categorize[c].items()}
+        categorize[c].pop('#na#')
+        categorize[c][np.nan] = 0
+    tfms['categorify']['classes'] = categorize
+    new_dict = {}
+    for k,v in tfms.items():
+        if k == 'fill_missing':
+            k = 'FillMissing'
+            new_dict.update({k:v})
+        else:
+            new_dict.update({k.capitalize():v})
+    return new_dict
 
 # Cell
 @patch
