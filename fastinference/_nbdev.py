@@ -48,7 +48,7 @@ modules = ["inference/inference.py",
            "tabular/shap/interp.py",
            "onnx.py"]
 
-doc_url = "https://muellerzr.github.io/fastinference/"
+doc_url = "https://muellerzr.github.io/fastinference"
 
 git_url = "https://github.com/muellerzr/fastinference/tree/master/"
 
