@@ -5,7 +5,7 @@ __all__ = ['ShapInterpretation']
 # Cell
 from .core import _prepare_data, _predict
 import shap
-from fastai2.tabular.all import *
+from fastai.tabular.all import *
 
 # Cell
 class ShapInterpretation():

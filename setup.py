@@ -49,7 +49,7 @@ extras = {}
 extras["onnx-gpu"] = ['onnxruntime-gpu']
 extras["onnx-cpu"] = ['onnxruntime-cpu']
 extras["interp"] = ['plotly', 'plotnine']
-extras["all"] = ['fastai2', 'onnxruntime-gpu', 'plotly', 'plotnine']
+extras["all"] = ['fastai', 'onnxruntime-gpu', 'plotly', 'plotnine']
 
 lic = licenses[cfg['license']]
 min_python = cfg['min_python']

@@ -3,7 +3,7 @@
 __all__ = ['Interpret', 'sv_var', 'ld_var', 'list_diff', 'which_elms', 'is_in_list', 'listify', 'isNone', 'isNotNone']
 
 # Cell
-from fastai2.tabular.all import *
+from fastai.tabular.all import *
 
 # Cell
 class Interpret():

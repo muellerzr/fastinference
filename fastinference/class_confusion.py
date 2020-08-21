@@ -8,9 +8,9 @@ if not SoftDependencies.check()['interp']:
     raise ImportError("The interp module is not installed.")
 
 # Cell
-from fastai2.tabular.data import TabDataLoader
-from fastai2.data.transforms import TfmdDL
-from fastai2.interpret import ClassificationInterpretation
+from fastai.tabular.data import TabDataLoader
+from fastai.data.transforms import TfmdDL
+from fastai.interpret import ClassificationInterpretation
 from fastcore.dispatch import typedispatch, patch
 import matplotlib, itertools, math
 from matplotlib import pyplot as plt

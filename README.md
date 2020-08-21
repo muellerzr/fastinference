@@ -1,5 +1,5 @@
 # fastinference
-> A collection of inference modules for fastai2 including inference speedup and interpretability
+> A collection of inference modules for fastai including inference speedup and interpretability
 
 
 ## Install

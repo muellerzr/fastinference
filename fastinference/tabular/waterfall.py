@@ -3,7 +3,7 @@
 __all__ = ['InterpretWaterfall']
 
 # Cell
-from fastai2.tabular.all import *
+from fastai.tabular.all import *
 from .core import *
 
 # Cell

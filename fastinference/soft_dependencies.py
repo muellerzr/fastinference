@@ -28,11 +28,11 @@ def soft_imports(names:list):
 class _SoftDependencies:
     "A class which checks what dependencies can be loaded"
     def __init__(self):
-        self.all = soft_imports(['fastai2', 'onnxruntime-gpu', 'plotly', 'plotnine'])
+        self.all = soft_imports(['fastai', 'onnxruntime-gpu', 'plotly', 'plotnine'])
         self.onnxgpu = soft_imports(['onnxruntime'])
         self.onnxcpu = soft_imports(['onnxruntime'])
         self.interp = soft_imports(['plotly', 'plotnine'])
-        self.light = soft_import('fastai2')
+        self.light = soft_import('fastai')
 
     def check(self) -> Dict[str, bool]: return self.__dict__.copy()
 

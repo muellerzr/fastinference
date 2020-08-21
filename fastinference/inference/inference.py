@@ -5,11 +5,11 @@ __all__ = []
 # Cell
 from ..soft_dependencies import SoftDependencies
 if not SoftDependencies.check()['light']:
-    raise ImportError("The fastai2 module is not installed.")
+    raise ImportError("The fastai module is not installed.")
 
 # Cell
-from fastai2.vision.all import *
-from fastai2.tabular.all import *
+from fastai.vision.all import *
+from fastai.tabular.all import *
 
 # Cell
 @typedispatch

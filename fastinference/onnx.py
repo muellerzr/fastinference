@@ -8,7 +8,7 @@ if not SoftDependencies.check()['onnxcpu']:
     raise ImportError("The onnxcpu or onnxgpu module is not installed.")
 
 # Cell
-from fastai2.learner import Learner
+from fastai.learner import Learner
 from fastcore.all import *
 import torch
 from torch import tensor, Tensor

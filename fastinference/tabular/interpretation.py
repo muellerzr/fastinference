@@ -3,7 +3,7 @@
 __all__ = ['base_error']
 
 # Cell
-from fastai2.tabular.all import *
+from fastai.tabular.all import *
 from scipy.cluster import hierarchy as hc
 from sklearn import manifold
 

@@ -3,7 +3,7 @@
 __all__ = []
 
 # Cell
-from fastai2.text.all import *
+from fastai.text.all import *
 from .inference import _decode_loss
 import matplotlib.cm as cm
 import html

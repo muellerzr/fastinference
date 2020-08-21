@@ -3,7 +3,7 @@
 __all__ = ['get_information']
 
 # Cell
-from fastai2.vision.all import *
+from fastai.vision.all import *
 
 # Cell
 def _gen_dict(tfm):
@@ -47,7 +47,7 @@ def _extract_tfm_dicts(dl:TfmdDL):
 def get_information(dls): return _extract_tfm_dicts(dls[0])
 
 # Cell
-from fastai2.tabular.all import *
+from fastai.tabular.all import *
 
 # Cell
 @typedispatch

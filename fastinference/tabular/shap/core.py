@@ -3,7 +3,7 @@
 __all__ = []
 
 # Cell
-from fastai2.tabular.all import *
+from fastai.tabular.all import *
 
 # Cell
 def _prepare_data(learn:Learner, test_data=None, n_samples:int=128):
