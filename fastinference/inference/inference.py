@@ -8,7 +8,7 @@ if not SoftDependencies.check()['light']:
     raise ImportError("The fastai module is not installed.")
 
 # Cell
-from fastai.learner import _ConstantFuncnstantFunc
+from fastai.learner import _ConstantFunc
 from fastai.vision.all import *
 from fastai.tabular.all import *
 
