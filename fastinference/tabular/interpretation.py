@@ -12,8 +12,8 @@ def base_error(err, val): return (err-val)/err
 
 # Cell
 @patch
-def feature_importance(x:TabularLearner, df=None, dl=None, perm_func=base_error, metric=accuracy, bs=None, reverse=True, plot=True):
-    "Calculate and plot the Feature Importance based on `df`"
+def feature_importance(x:TabularLearner, df=None, dl=None, perm_func=base_error, metric=None, bs=None, reverse=True, plot=True):
+    "Calculate and plot the Feature Importance based on `df`. If `metric` isn't specified, the first learner metric will be used"
     x.df = df
     bs = bs if bs is not None else x.dls.bs
     if df is not None:
@@ -24,7 +24,12 @@ def feature_importance(x:TabularLearner, df=None, dl=None, perm_func=base_error,
     na = x.dls.x_names.filter(lambda x: '_na' in x)
     y = x.dls.y_names
     orig_metrics = x.metrics[1:]
-    x.metrics = [metric]
+
+    if metric: x.metrics = [metric]
+    else:
+        assert len(x.metrics) > 0, "No metric defined in learner! You should pass a metric"
+        x.metrics = [x.metrics[0]]
+
     results = _calc_feat_importance(x, dl, x_names, na, perm_func, reverse)
     if plot:
         _plot_importance(_ord_dic_to_df(results))
