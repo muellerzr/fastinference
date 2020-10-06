@@ -6,9 +6,21 @@ __all__ = []
 from fastai.tabular.all import *
 
 # Cell
-def _prepare_data(learn:Learner, test_data=None, n_samples:int=128):
+def _prepare_data(dl:TabDataLoader, n_samples: Optional[int]=None):
+    "Prepares dataloader data for `SHAP`"
+    # Try to avoid concatenate big dataframes -> Sample dataframe before merging them
+    if n_samples is not None and len(dl.cats) > n_samples:
+        cats_df = dl.cats.sample(n=n_samples)
+        conts_df = dl.conts.loc[cats_df.index]
+    else:
+        cats_df, conts_df = dl.cats, dl.conts
+
+    return pd.merge(cats_df, conts_df, left_index=True, right_index=True)
+
+# Cell
+def _prepare_test_data(learn:Learner, test_data=None, n_samples:int=128):
     "Prepares train and test data for `SHAP`, pass in a learner with optional data"
-    no_user_provided_test_data = test_data is None
+    user_provided_test_data = test_data is not None
     if isinstance(test_data, pd.DataFrame):
         dl = learn.dls.test_dl(test_data)
     elif isinstance(test_data, TabDataLoader):
@@ -21,8 +33,9 @@ def _prepare_data(learn:Learner, test_data=None, n_samples:int=128):
             dl = learn.dls[0]
     else:
         raise ValueError('Input is not supported. Please use either a `DataFrame` or `TabularDataLoader`')
-    test_data = pd.merge(dl.cats, dl.conts, left_index=True, right_index=True)
-    return test_data.sample(n=n_samples) if ((len(test_data) > n_samples) and no_user_provided_test_data) else test_data
+
+    return _prepare_data(dl, None if user_provided_test_data else n_samples)
+
 
 # Cell
 def _predict(learn:TabularLearner, data:np.array):

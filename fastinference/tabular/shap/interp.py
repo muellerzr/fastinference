@@ -3,20 +3,21 @@
 __all__ = ['ShapInterpretation']
 
 # Cell
-from .core import _prepare_data, _predict
+from .core import _prepare_data, _prepare_test_data, _predict
 import shap
 from fastai.tabular.all import *
 
 # Cell
+@delegates(shap.SamplingExplainer)
 class ShapInterpretation():
     "Base interpereter to use the `SHAP` interpretation library"
-    def __init__(self, learn:TabularLearner, test_data=None, link='identity', l1_reg='auto', n_samples=128, **kwargs):
-        "Initialize `ShapInterpretation` with a Learner, test_data, link, `n_samples`, `l1_reg`, and optional **kwargs"
+    def __init__(self, learn:TabularLearner, test_data=None, l1_reg='auto', n_samples=128, max_train_samples=100000, **kwargs):
+        "Initialize `ShapInterpretation` with a Learner, test_data, `n_samples`, `l1_reg`, and optional **kwargs passed to `shap.SamplingExplainer`"
         self.model = learn.model
         self.dls = learn.dls
         self.class_names = learn.dls.vocab if hasattr(learn.dls, 'vocab') else None # only defined for classification problems
-        self.train_data = pd.merge(learn.dls.cats, learn.dls.conts, left_index=True, right_index=True)
-        self.test_data = _prepare_data(learn, test_data, n_samples)
+        self.train_data = _prepare_data(learn.dls.train, max_train_samples)
+        self.test_data = _prepare_test_data(learn, test_data, n_samples)
         pred_func = partial(_predict, learn)
         self.explainer = shap.SamplingExplainer(pred_func, self.train_data, **kwargs)
         self.shap_vals = self.explainer.shap_values(self.test_data, l1_reg=l1_reg)
