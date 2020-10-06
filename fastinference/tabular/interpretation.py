@@ -8,7 +8,9 @@ from scipy.cluster import hierarchy as hc
 from sklearn import manifold
 
 # Cell
-def base_error(err, val): return (err-val)/err
+def base_error(err, val):
+    try: return (err-val)/err
+    except ZeroDivisionError: return np.nan
 
 # Cell
 @patch
@@ -23,12 +25,15 @@ def feature_importance(x:TabularLearner, df=None, dl=None, perm_func=base_error,
     x_names = x.dls.x_names.filter(lambda x: '_na' not in x)
     na = x.dls.x_names.filter(lambda x: '_na' in x)
     y = x.dls.y_names
-    orig_metrics = x.metrics[1:]
+    orig_metrics = x.metrics
     x.metrics = [metric]
-    results = _calc_feat_importance(x, dl, x_names, na, perm_func, reverse)
-    if plot:
-        _plot_importance(_ord_dic_to_df(results))
-    x.metrics = orig_metrics
+    try:
+        results = _calc_feat_importance(x, dl, x_names, na, perm_func, reverse)
+        if plot:
+            _plot_importance(_ord_dic_to_df(results))
+    finally: # Restore original metrics
+        x.metrics = orig_metrics
+
     return results
 
 # Cell
