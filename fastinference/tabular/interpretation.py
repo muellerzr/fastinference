@@ -77,16 +77,6 @@ def _plot_importance(df:pd.DataFrame, limit=20, asc=False, **kwargs):
         ax.annotate(f'{p.get_width():.4f}', ((p.get_width() * 1.005), p.get_y()  * 1.005))
 
 # Cell
-def _get_top_corr(df, matrix, thresh:float=0.8):
-    corr = np.where(abs(matrix) < thresh,0,matrix)
-    idxs = []
-    for i in range(corr.shape[0]):
-        if (corr[i,:].sum() + corr[:, i].sum() > 2):
-            idxs.append(i)
-    cols = df.columns[idxs]
-    return pd.DataFrame(corr[np.ix_(idxs,idxs)], columns=cols, index=cols)
-
-# Cell
 def _cramers_corrected_stat(cm):
     "Calculates Cramers V Statistic for categorical-categorical"
     try: chi2 = scipy.stats.chi2_contingency(cm)[0]
@@ -102,48 +92,102 @@ def _cramers_corrected_stat(cm):
     return np.sqrt(phi2corr/min((kcorr-1), (rcorr-1)))
 
 # Cell
-def _get_cramer_v_matr(dl:TabDataLoader):
+def _get_cramer_v_matr(df:pd.DataFrame):
     "Calculate Cramers V statistic on every pair in `df`'s columns'"
-    df = dl.xs
     cols = list(df.columns)
-    corrM = np.zeros((len(cols), len(cols)))
+
+    # Initialize dataframe with 1 so we won't need to fill pandas diagonal with ones :)
+    corrM = pd.DataFrame(1., columns=cols, index=cols)
     for col1, col2 in progress_bar(list(itertools.combinations(cols, 2))):
-        idx1, idx2 = cols.index(col1), cols.index(col2)
-        corrM[idx1,idx2] = _cramers_corrected_stat(pd.crosstab(df[col1], df[col2]))
-        corrM[idx2, idx1] = corrM[idx1, idx2]
-    np.fill_diagonal(corrM, 1.0)
+        corrM.loc[col1, col2] = corrM.loc[col2, col1] = _cramers_corrected_stat(pd.crosstab(df[col1], df[col2]))
+
     return corrM
 
 # Cell
-def _get_top_corr_dict_corrs(top_corrs):
-    cols = top_corrs.columns
-    top_corrs_np = top_corrs.to_numpy()
-    corr_dict = {}
-    for i in range(top_corrs_np.shape[0]):
-        for j in range(i+1, top_corrs_np.shape[0]):
-            if top_corrs_np[i,j] > 0:
-                corr_dict[cols[i] + ' vs ' + cols[j]] = np.round(top_corrs_np[i,j],3)
-    return OrderedDict(sorted(corr_dict.items(), key=lambda kv: abs(kv[1]), reverse=True))
+@patch
+def get_features_corr(x:TabularLearner, df:Optional[pd.DataFrame]=None,
+                      cat_names=None, cont_names=None, cont_correlation='kendall'):
+    "Return correlation matrix on `df` or train data"
+
+    dl = x.dls.test_dl(df) if df is not None else x.dls.train
+    cat_names = ifnone(cat_names, dl.cat_names)
+    cont_names = ifnone(cont_names, dl.cont_names)
+
+    # Compute correlation
+    cat_corr_matrix = _get_cramer_v_matr(dl.xs[cat_names])
+    cont_corr_matrix = dl.xs[cont_names].corr(method=cont_correlation)
+    return cat_corr_matrix, cont_corr_matrix
 
 # Cell
-@patch
-def get_top_corr_dict(x:TabularLearner, df:pd.DataFrame, thresh:float=0.8):
-    "Grabs top pairs of correlation with a given correlation matrix on `df` filtered by `thresh`"
-    dl = x.dls.test_dl(df)
-    matrix = _get_cramer_v_matr(dl)
-    top_corrs = _get_top_corr(df, matrix, thresh=thresh)
-    return _get_top_corr_dict_corrs(top_corrs)
+def _flatten_dataframe(df: pd.DataFrame) -> pd.Series:
+    data = {}
+    for col_name, s in df.items():
+        data.update({f"{idx_name} vs {col_name}": val for idx_name, val in s.items()})
+    return pd.Series(data)
+
+def _flatten_corr_dataframe(corr_matrix: pd.DataFrame) -> pd.Series:
+    """Extract dataframe upper diagonal and flat it in a Serie"""
+    corr_data = {}
+    for i in range(corr_matrix.shape[0]):
+        for j in range(i+1, corr_matrix.shape[1]):
+            idx_name, col_name = corr_matrix.index[i], corr_matrix.index[j]
+            corr_data[f"{idx_name} vs {col_name}"] = corr_matrix.iloc[i,j]
+    return pd.Series(corr_data)
 
 # Cell
+@delegates(get_features_corr)
 @patch
-def plot_dendrogram(x:TabularLearner, df:pd.DataFrame, figsize=None, leaf_font_size=16):
-    "Plots dendrogram for a calculated correlation matrix"
-    dl = x.dls.test_dl(df)
-    matrix = _get_cramer_v_matr(dl)
-    if figsize is None:
-        figsize = (15, 0.02*leaf_font_size*len(dl.x_names))
-    corr_condensed = hc.distance.squareform(1-matrix)
+def get_top_features_corr(x:TabularLearner, df:Optional[pd.DataFrame]=None, thresh:float=0.8, **kwargs):
+    "Grabs top pairs of correlation with a given correlation matrix on `df` or train data filtered by `thresh`"
+    cat_corr, cont_corr = x.get_features_corr(df=df, **kwargs)
+
+    cat_corr_flat = _flatten_corr_dataframe(cat_corr)
+    cat_corr_flat = cat_corr_flat[cat_corr_flat.abs() > thresh].sort_values(ascending=False)
+
+    cont_corr_flat = _flatten_corr_dataframe(cont_corr)
+    # Get top coontinuos correlation ignoring if they are positive or negative correlated.
+    abs_cont_corr = cont_corr_flat.abs()
+    cont_corr_flat = cont_corr_flat[abs_cont_corr[abs_cont_corr > thresh].sort_values(ascending=False).index]
+
+    return cat_corr_flat, cont_corr_flat
+
+@patch
+def get_top_corr_dict(x:TabularLearner, df, thresh:float=0.8):
+    "Grabs top pairs of correlation with a given correlation matrix on `df` or train data filtered by `thresh`"
+    warnings.warn('Deprecated method: use `get_top_features_corr`')
+    cat_corr, cont_corr = x.get_top_features_corr(df, thresh)
+    return {**cat_corr.to_dict(), **cont_corr.to_dict()}
+
+# Cell
+def _plot_dendrogram(corr_matrix: pd.DataFrame, leaf_font_size, ax=None):
+    # Take `abs` as we don't care if correlation is positive or negative.
+    corr_condensed = hc.distance.squareform(1-corr_matrix.abs().to_numpy())
     z = hc.linkage(corr_condensed, method='average')
-    fig = plt.figure(figsize=figsize)
-    dendrogram = hc.dendrogram(z, labels=dl.x_names, orientation='left', leaf_font_size = leaf_font_size)
+    dendrogram = hc.dendrogram(z, labels=corr_matrix.columns, orientation='left', leaf_font_size=leaf_font_size, ax=ax)
+    return dendrogram
+
+# Cell
+@delegates(get_features_corr)
+@patch
+def plot_dendrogram(x:TabularLearner, df: Optional[pd.DataFrame]=None,
+                    figsize=None, leaf_font_size=16, **kwargs):
+    "Plots dendrogram for a calculated correlation matrix. `cont_correlation` could be 'spearman' or 'kendall'"
+
+    # Compute correlation
+    cat_corr_matrix, cont_corr_matrix = x.get_features_corr(df=df, **kwargs)
+
+    # Plot dendrogram
+    if figsize is None:
+        figsize = (15, 0.02*leaf_font_size*(len(cat_names)+len(cont_names)+3))
+
+    # Use constrained_layout instead of plt.tight_layout() as it's the new form.
+    fig, axes = plt.subplots(2, 1, figsize=figsize, constrained_layout=True,
+                             gridspec_kw={'height_ratios': [cat_corr_matrix.shape[1], cont_corr_matrix.shape[1]]})
+
+    _plot_dendrogram(cat_corr_matrix, leaf_font_size, ax=axes[0])
+    axes[0].set_title("Categorical features", fontdict={'fontsize': leaf_font_size*1.1})
+    _plot_dendrogram(cont_corr_matrix.abs(), leaf_font_size, ax=axes[1])
+    axes[1].set_title("Continuous features", fontdict={'fontsize': leaf_font_size*1.1})
+
+    # plt.tight_layout()
     plt.show()
