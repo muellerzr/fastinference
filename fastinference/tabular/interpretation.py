@@ -119,12 +119,6 @@ def get_features_corr(x:TabularLearner, df:Optional[pd.DataFrame]=None,
     return cat_corr_matrix, cont_corr_matrix
 
 # Cell
-def _flatten_dataframe(df: pd.DataFrame) -> pd.Series:
-    data = {}
-    for col_name, s in df.items():
-        data.update({f"{idx_name} vs {col_name}": val for idx_name, val in s.items()})
-    return pd.Series(data)
-
 def _flatten_corr_dataframe(corr_matrix: pd.DataFrame) -> pd.Series:
     """Extract dataframe upper diagonal and flat it in a Serie"""
     corr_data = {}
@@ -178,7 +172,8 @@ def plot_dendrogram(x:TabularLearner, df: Optional[pd.DataFrame]=None,
 
     # Plot dendrogram
     if figsize is None:
-        figsize = (15, 0.02*leaf_font_size*(len(cat_names)+len(cont_names)+3))
+        # Make plot size to fit categorical and continuous variables.
+        figsize = (15, 0.02*leaf_font_size*(len(cat_corr_matrix)+len(cont_corr_matrix)+3))
 
     # Use constrained_layout instead of plt.tight_layout() as it's the new form.
     fig, axes = plt.subplots(2, 1, figsize=figsize, constrained_layout=True,
