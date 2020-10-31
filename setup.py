@@ -48,8 +48,8 @@ all_req = parse_requirements("all")
 extras = {}
 extras["onnx-gpu"] = ['onnxruntime-gpu']
 extras["onnx-cpu"] = ['onnxruntime-cpu']
-extras["interp"] = ['plotly', 'plotnine']
-extras["all"] = ['fastai', 'onnxruntime-gpu', 'plotly', 'plotnine']
+extras["interp"] = ['plotly', 'plotnine', 'shap<0.36.0']
+extras["all"] = ['fastai', 'onnxruntime-gpu', 'plotly', 'plotnine', 'shap<0.36.0']
 
 lic = licenses[cfg['license']]
 min_python = cfg['min_python']
