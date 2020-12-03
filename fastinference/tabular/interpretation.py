@@ -129,8 +129,8 @@ def _flatten_corr_dataframe(corr_matrix: pd.DataFrame) -> pd.Series:
     return pd.Series(corr_data)
 
 # Cell
-@delegates(get_features_corr)
 @patch
+@delegates(get_features_corr)
 def get_top_features_corr(x:TabularLearner, df:Optional[pd.DataFrame]=None, thresh:float=0.8, **kwargs):
     "Grabs top pairs of correlation with a given correlation matrix on `df` or train data filtered by `thresh`"
     cat_corr, cont_corr = x.get_features_corr(df=df, **kwargs)
@@ -161,8 +161,8 @@ def _plot_dendrogram(corr_matrix: pd.DataFrame, leaf_font_size, ax=None):
     return dendrogram
 
 # Cell
-@delegates(get_features_corr)
 @patch
+@delegates(get_features_corr)
 def plot_dendrogram(x:TabularLearner, df: Optional[pd.DataFrame]=None,
                     figsize=None, leaf_font_size=16, **kwargs):
     "Plots dendrogram for a calculated correlation matrix. `cont_correlation` could be 'spearman' or 'kendall'"
