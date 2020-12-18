@@ -48,8 +48,8 @@ def _decode_loss(vocab, dec_out, outs):
     return outs
 
 # Cell
-@delegates(GatherPredsCallback.__init__)
 @patch
+@delegates(GatherPredsCallback.__init__)
 def get_preds(self:Learner, ds_idx=1, dl=None, with_input=False, with_decoded=False, with_loss=False, raw=False, act=None,
                 inner=False, reorder=True, cbs=None, **kwargs):
     if dl is None: dl = self.dls[ds_idx].new(shuffled=False, drop_last=False)
