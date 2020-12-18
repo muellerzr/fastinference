@@ -59,8 +59,8 @@ def _extract_tfm_dicts(dl:TabDataLoader):
     tfms = {}
     name2idx = {name:n for n,name in enumerate(dl.dataset) if name in dl.cat_names or name in dl.cont_names}
     idx2name = {v:k for k,v in name2idx.items()}
-    cat_idxs = {name2idx[name]:name for name in cat_names}
-    cont_idxs = {name2idx[name]:name for name in cont_names}
+    cat_idxs = {name2idx[name]:name for name in dl.cat_names}
+    cont_idxs = {name2idx[name]:name for name in dl.cont_names}
     names = {'cats':cat_idxs, 'conts':cont_idxs}
     tfms['encoder'] = names
     for t in types.split(','):
