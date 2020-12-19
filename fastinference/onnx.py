@@ -4,7 +4,7 @@ __all__ = ['fastONNX']
 
 # Cell
 from .soft_dependencies import SoftDependencies
-if not SoftDependencies.check()['onnxcpu']:
+if not SoftDependencies.check()['onnxcpu'] and not SoftDependencies.check()['onnxgpu']:
     raise ImportError("The onnxcpu or onnxgpu module is not installed.")
 
 # Cell
