@@ -1,20 +1,5 @@
-# fastinference
-> A collection of inference modules for fastai including inference speedup and interpretability
+# nbdev template
 
+Use this template to more easily create your [nbdev](https://nbdev.fast.ai/) project.
 
-## Install
-
-`pip install fastinference`
-
-There are submodules available as well via:
-
-* `pip install fastinference[interp]` - Interpretability modules such as SHAP and Feature Importance
-* `pip install fastinference[onnxcpu]` - ONNX for a CPU environment
-* `pip install fastinference[onnxgpu]` - ONNX for a GPU environment
-
-
-## Wonderful Contributors:
-
-(Using both their `fastai` handles as well as their GitHub handles if possible):
-
-* Pavel (Pak)
+_If you are using an older version of this template, and want to upgrade to the theme-based version, see [this helper script](https://gist.github.com/hamelsmu/977e82a23dcd8dcff9058079cb4a8f18) (more explanation of what this means is contained in the link to the script)_.
