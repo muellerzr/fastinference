@@ -2,9 +2,9 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {}
+index = {"Learner.to_jit": "00_jit.ipynb"}
 
-modules = []
+modules = ["jit.py"]
 
 doc_url = "https://muellerzr.github.io/fastinference/"
 
