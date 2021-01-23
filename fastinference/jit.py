@@ -6,6 +6,7 @@ __all__ = []
 import torch
 from fastcore.all import *
 from fastai.learner import *
+from fastai.torch_core import TensorBase
 
 # Cell
 mk_class('JitMode', **{o:o.lower() for o in ['Trace','Script']},
