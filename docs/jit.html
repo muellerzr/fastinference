@@ -201,7 +201,7 @@ nb_path: "00_jit.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>There are two possible scenarios with <code>jit</code>: <code>trace</code> and <code>script</code>. Ideally you should use <code>torch.jit.script</code>, however if there is dynamic behavior, <code>torch.jit.trace</code> should be utilized instead. As a result <code>trace</code> is tried by default</p>
+<p>There are two possible scenarios with <a href="/fastinference/jit.html"><code>jit</code></a>: <code>trace</code> and <code>script</code>. Ideally you should use <code>torch.jit.script</code>, however if there is dynamic behavior, <code>torch.jit.trace</code> should be utilized instead. As a result <code>trace</code> is tried by default</p>
 <p><code>Learner.to_jit()</code> will perform this decision unless a specific version is specified:</p>
 <p>Ideally <code>torch.jit.trace</code> should be used, as it is built for dynamic behavior (such as CNN's). If your model is not convolutional in nature you should use <code>trace</code></p>
 
