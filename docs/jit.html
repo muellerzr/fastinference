@@ -201,7 +201,7 @@ nb_path: "00_jit.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>There are two possible scenarios with <code>jit</code>: <code>trace</code> and <code>script</code>. Ideally you should use <code>torch.jit.script</code>, however if there is dynamic behavior, <code>torch.jit.trace</code> should be utilized instead. As a result <code>trace</code> is tried by default</p>
+<p>There are two possible scenarios with <a href="/fastinference/jit.html"><code>jit</code></a>: <code>trace</code> and <code>script</code>. Ideally you should use <code>torch.jit.script</code>, however if there is dynamic behavior, <code>torch.jit.trace</code> should be utilized instead. As a result <code>trace</code> is tried by default</p>
 <p><code>Learner.to_jit()</code> will perform this decision unless a specific version is specified:</p>
 <p>Ideally <code>torch.jit.trace</code> should be used, as it is built for dynamic behavior (such as CNN's). If your model is not convolutional in nature you should use <code>trace</code></p>
 
@@ -241,24 +241,6 @@ nb_path: "00_jit.ipynb"
 
 </div>
 
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
-<span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;/content/drive&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
 </div>
 </div>
 
