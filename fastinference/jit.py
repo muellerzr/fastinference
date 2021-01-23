@@ -4,6 +4,7 @@ __all__ = []
 
 # Cell
 import torch
+from fastcore.all import *
 from fastai.learner import *
 
 # Cell
