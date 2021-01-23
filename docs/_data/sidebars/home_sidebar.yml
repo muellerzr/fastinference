@@ -10,7 +10,7 @@ entries:
       title: Overview
       url: /
     - output: web,pdf
-      title: 00_Jit
+      title: Jit
       url: jit.html
     output: web
     title: fastinference
