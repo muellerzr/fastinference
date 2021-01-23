@@ -8,6 +8,13 @@ from fastcore.all import *
 from fastai.learner import *
 from fastai.torch_core import TensorBase
 
+# Internal Cell
+@patch
+def requires_grad_(self:TensorBase, requires_grad=True):
+    # Workaround https://github.com/pytorch/pytorch/issues/50219
+    self.requires_grad = requires_grad
+    return self
+
 # Cell
 mk_class('JitMode', **{o:o.lower() for o in ['Trace','Script']},
          doc="All possible export modes as attributes to get tab-completion and typo-proofing")
