@@ -1,5 +1,9 @@
-# nbdev template
+# fastai Export Package
+> A package geared towards fastai export for version 2.3+
 
-Use this template to more easily create your [nbdev](https://nbdev.fast.ai/) project.
 
-_If you are using an older version of this template, and want to upgrade to the theme-based version, see [this helper script](https://gist.github.com/hamelsmu/977e82a23dcd8dcff9058079cb4a8f18) (more explanation of what this means is contained in the link to the script)_.
+This package will be a collection of inference-based improvements to the fastai, as listed out in [this](https://github.com/fastai/fastai/projects/1#card-53144632) list.
+
+A summary of implementations so far
+> (x) means implemented:* `jit` export methodology ( )* `onnx` export methodology ( )
+
