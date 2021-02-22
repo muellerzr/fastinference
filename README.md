@@ -9,8 +9,8 @@
 There are submodules available as well via:
 
 * `pip install fastinference[interp]` - Interpretability modules such as SHAP and Feature Importance
-* `pip install fastinference[onnxcpu]` - ONNX for a CPU environment
-* `pip install fastinference[onnxgpu]` - ONNX for a GPU environment
+* `pip install fastinference[onnx-cpu]` - ONNX for a CPU environment
+* `pip install fastinference[onnx-gpu]` - ONNX for a GPU environment
 
 
 ## Wonderful Contributors:
