@@ -149,12 +149,13 @@ def _intrinsic_attention(learn, text, class_id=None):
     dl = learn.dls.test_dl([text])
     batch = next(iter(dl))[0]
     emb = learn.model[0].module.encoder(batch).detach().requires_grad_(True)
+    emb.retain_grad()
     lstm = learn.model[0].module(emb, True)
     learn.model.eval()
     cl = learn.model[1]((lstm, torch.zeros_like(batch).bool(),))[0].softmax(dim=-1)
     if class_id is None: class_id = cl.argmax()
     cl[0][class_id].backward()
-    attn = emb.squeeze().abs().sum(dim=-1)
+    attn = emb.grad.squeeze().abs().sum(dim=-1)
     attn /= attn.max()
     tok, _ = learn.dls.decode_batch((*tuplify(batch), *tuplify(cl)))[0]
     return tok, attn
